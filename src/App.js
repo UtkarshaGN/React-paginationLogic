@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import Pages from './components/Pages';
 
 function App() {
+  const [data,setData] = useState([]);
+
+  //getting posts from url
+  useEffect(() =>{
+  const paginationFun = async() =>{
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data =  await res.json()
+  setData(data)
+}
+  paginationFun();
+  },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {
+        data.length > 0 ? <Pages data = {data}/> : <p>Loading ....</p>
+      }
+    </>
+  )
 }
 
-export default App;
+export default App
+
